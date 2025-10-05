@@ -1,31 +1,47 @@
-const Assignment = require("../models/Assignment");
-const Submission = require("../models/SubmittedAssignment");
-
+const Assignment = require("../models/AssignmentNotes");
 const Course = require("../models/Course");
 
+// Get assignments for the logged-in student
 exports.getAssignments = async (req, res) => {
-  const assignments = await Assignment.find({ student: req.user.id });
-  res.json(assignments);
+  try {
+    const assignments = await Assignment.find({ student: req.user.id });
+    res.json(assignments);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
 };
 
-exports.submitAssignment = async (req, res) => {
-  const { assignmentId, answer } = req.body;
-  const submission = new Submission({
-    assignmentId,
-    student: req.user.id,
-    answer,
-  });
-  await submission.save();
-  res.json({ message: "Assignment submitted", submission });
-};
-
+// Dashboard → enrolled + pending approval courses
 exports.dashboard = async (req, res) => {
-  const courses = await Course.find({ students: req.user.id });
-  res.json({ enrolledCourses: courses.length, courses });
+  try {
+    const enrolledCourses = await Course.find({
+      students: req.user.id,
+      status: "active",
+    });
+    const pendingCourses = await Course.find({
+      students: req.user.id,
+      status: "pending",
+    });
+
+    res.json({
+      enrolledCount: enrolledCourses.length,
+      pendingCount: pendingCourses.length,
+      enrolledCourses,
+      pendingCourses,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
 };
 
+// Course Details → details of one course by ID
 exports.courseDetails = async (req, res) => {
-  const { courseId } = req.params;
-  const course = await Course.findById(courseId);
-  res.json(course);
+  try {
+    const { courseId } = req.params;
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ error: "Course not found" });
+    res.json(course);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
 };
