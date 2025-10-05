@@ -9,7 +9,7 @@ exports.getTeacherDashboard = async (req, res) => {
     const totalStudents = await User.countDocuments({
       enrolledCourses: { $in: courses.map((c) => c._id) },
     });
-
+    
     res.json({ totalCourses, totalStudents, courses });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
