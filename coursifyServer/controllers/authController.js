@@ -5,10 +5,10 @@ const User = require("../models/User");
 // ===================== Signup =====================
 exports.signup = async (req, res) => {
   try {
-    const { email, password, first_name, last_name, user_role } = req.body;
+    const { email, password, first_name, last_name, user_role, qualifications } = req.body;
 
     // Validate required fields
-    if (!email || !password || !first_name || !last_name || !user_role) {
+    if (!email || !password || !first_name || !last_name || !user_role || !qualifications) {
       return res.status(400).json({ msg: "All fields are required" });
     }
 
@@ -27,17 +27,30 @@ exports.signup = async (req, res) => {
       first_name,
       last_name,
       user_role,
+      qualifications
     });
 
     await newUser.save();
-    res.status(201).json({ msg: "User registered successfully" });
+    const user = await User.findOne({ email });
+    const token = jwt.sign(
+      { userId: user._id, role: user.user_role }, // use Mongo _id
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" } // 1 day instead of 1h
+    );
+    res.status(201).json({
+      msg: "User registered successfully", token,
+      role: user.user_role,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 // ===================== Login =====================
-exports.login = async (req, res) => {
+exports.signin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
