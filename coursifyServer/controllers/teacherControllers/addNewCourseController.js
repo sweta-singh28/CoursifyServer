@@ -3,6 +3,7 @@ const Course = require("../../models/Course");
 // Add new course
 exports.getAddNewCourse = async (req, res) => {
   try {
+    console.log("the req print is called",req.body);
     const {
       course_name,
       course_pre_requisites,
@@ -27,7 +28,7 @@ exports.getAddNewCourse = async (req, res) => {
       course_current_completed,
       course_active_students,
       course_pending_students,
-      teachers_user_id: req.user.id, // from logged-in teacher
+      teachers_user_id: req.user.userId, // from logged-in teacher
     });
 
     await course.save();
