@@ -30,7 +30,7 @@ const auth = require("../middleware/auth");
 
 // Define routes
 router.use(auth);
-router.get("/admindashboard", getAdminDashboard);
+router.get("/dashboard", getAdminDashboard);
 router.get("/pendingapprovals", getPendingApprovals);
 router.get("/userdetails/:userId", getUserDetails);
 router.get("/coursedetails/:courseId", getCourseDetails); 

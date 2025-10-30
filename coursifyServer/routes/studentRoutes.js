@@ -11,10 +11,13 @@ const {
 const {
   courseDetails,
 } = require("../controllers/studentControllers/viewCourseDetailsController");
+const { availCourses } = require("../controllers/studentControllers/availCoursesController");
 const auth = require("../middleware/auth");
 // Routes
-router.get("/assignments",auth, getAssignments);
-router.get("/dashboard",auth, dashboard);
-router.get("/coursedetails/:courseId",auth, courseDetails);
+router.use(auth);
+router.get("/assignments", getAssignments);
+router.get("/dashboard", dashboard);
+router.get("/coursedetails/:courseId", courseDetails);
+router.get("/courses",availCourses);
 
 module.exports = router;

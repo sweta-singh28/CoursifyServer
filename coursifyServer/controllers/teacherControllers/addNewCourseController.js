@@ -13,8 +13,6 @@ exports.getAddNewCourse = async (req, res) => {
       course_description,
       course_thumbnail,
       course_current_completed,
-      course_active_students,
-      course_pending_students,
     } = req.body;
 
     const course = new Course({
@@ -26,8 +24,8 @@ exports.getAddNewCourse = async (req, res) => {
       course_description,
       course_thumbnail,
       course_current_completed,
-      course_active_students,
-      course_pending_students,
+      course_active_students: [],
+      course_pending_students: [],
       teachers_user_id: req.user.userId, // from logged-in teacher
     });
 

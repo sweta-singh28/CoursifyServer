@@ -37,7 +37,7 @@ router.post("/uploadmaterials", getUploadMaterials);
 router.get("/viewsubmissions", getViewSubmissions);
 router.get("/pendingstudentapprovals", getPendingStudentApproval); 
 router.get("/subjects/:subjectId", getSubjectDetails);
-router.post("/students/register", getStudentRegister);
+router.get("/getStudents", getStudentRegister);
 router.get("/students/:studentId", getStudentDetails);
 
 

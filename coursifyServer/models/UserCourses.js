@@ -7,4 +7,4 @@ const userCoursesSchema = new mongoose.Schema({
   expiredCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
 });
 
-module.exports = mongoose.model("UserCourses", userCoursesSchema);
+module.exports = mongoose.model("UserCourse", userCoursesSchema);
