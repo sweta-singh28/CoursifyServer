@@ -4,7 +4,7 @@ const User = require("../../models/User");
 exports.getStudentRegister = async (req, res) => {
   try {
     
-    const student = await User.find({});
+    const student = await User.find({user_role: 'student'});
     
     res.json(student);
   } catch (err) {

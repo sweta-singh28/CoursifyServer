@@ -9,7 +9,7 @@ const {
   getAddNewCourse,
 } = require("../controllers/teacherControllers/addNewCourseController");
 const {
-  getUploadMaterials,
+  getAssignment,getNotes,
 } = require("../controllers/teacherControllers/uploadMaterialsController");
 const {
   getViewSubmissions,
@@ -33,7 +33,8 @@ const auth = require("../middleware/auth");
 router.use(auth);
 router.get("/dashboard", getTeacherDashboard);
 router.post("/addnewcourse", getAddNewCourse);
-router.post("/uploadmaterials", getUploadMaterials);
+router.post("/newAssignment", getAssignment);
+router.post("/newNotes", getNotes);
 router.get("/viewsubmissions", getViewSubmissions);
 router.get("/pendingstudentapprovals", getPendingStudentApproval); 
 router.get("/subjects/:subjectId", getSubjectDetails);
